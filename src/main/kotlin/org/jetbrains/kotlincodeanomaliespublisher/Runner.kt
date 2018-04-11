@@ -32,8 +32,9 @@ object Runner {
         }
     }
 
-    private fun publishCstAnomalies(anomaliesFolder: String, processMethod: ProcessMethod, publisherName: String) {
-        val anomaliesPublisher = AnomaliesPublisher(AnomalyType.CST, processMethod)
+    private fun publishCstAnomalies(anomaliesFolder: String, processMethod: ProcessMethod, publisherName: String,
+                                    anomalyType: AnomalyType = AnomalyType.CST) {
+        val anomaliesPublisher = AnomaliesPublisher(anomalyType, processMethod)
 
         try {
             DirectoryWalker(anomaliesFolder, "kt").run {
@@ -54,6 +55,7 @@ object Runner {
         when (type) {
             AnomalyType.BYTECODE -> publishBytecodeAnomalies(anomaliesFolder, processMethod, publisherName)
             AnomalyType.CST -> publishCstAnomalies(anomaliesFolder, processMethod, publisherName)
+            AnomalyType.HWM -> publishCstAnomalies(anomaliesFolder, processMethod, publisherName, AnomalyType.HWM)
         }
     }
 }
